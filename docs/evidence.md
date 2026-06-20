@@ -18,6 +18,22 @@ Result:
 - Blocked checks: `per_action_cap`, `risk_score`
 - Paused-policy blocked check: `policy_active`
 
+## Telegram Bot
+
+Command surface:
+
+```bash
+npm run bot:dry
+```
+
+Status:
+
+- Reuses the old Jarvis-style menu structure for reviewer demo flow.
+- Reads `TELEGRAM_BOT_TOKEN` only from local `.env` or deployment secrets.
+- Does not copy old bot logs, generated wallets, operation history, or hardcoded credentials.
+- Does not perform Telegram-side live trading or private-key custody.
+- BotFather profile image asset: `site/telegram-bot-avatar.png`
+
 ## Local Site
 
 Command:

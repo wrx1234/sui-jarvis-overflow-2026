@@ -34,6 +34,7 @@ This repo is a clean submission MVP:
 - Published Sui testnet Move package for a shared policy object.
 - Walrus testnet receipt for the allowed action audit JSON.
 - Public judge-facing website, submission checklist, competitor scan, and demo video script.
+- Telegram bot command surface that reuses the old Jarvis menu pattern without old secrets, wallet custody, or live-trading execution.
 - No secrets and no copied old bot data.
 
 Public links:
@@ -94,11 +95,29 @@ Expected result:
 - One paused-policy attempt is blocked.
 - Audit receipt digests are deterministic SHA-256 hashes.
 
+## Run The Telegram Bot
+
+Dry run without a Telegram token:
+
+```bash
+npm run bot:dry
+```
+
+Live run after setting `TELEGRAM_BOT_TOKEN` in local `.env` or a deployment secret store:
+
+```bash
+npm run bot
+```
+
+Bot deployment notes and BotFather profile setup:
+
+`docs/telegram-bot.md`
+
 ## Delivery Targets
 
 1. Public dashboard is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
 2. Captioned fallback demo video is published at `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html`.
-3. Add Telegram as a thin command surface after policy proof is working.
+3. Run Telegram as a thin command surface using the old Jarvis menu pattern after `TELEGRAM_BOT_TOKEN` is set outside git.
 4. Put package ID, transaction digest, Walrus blob ID, website, GitHub, and video in DeepSurge.
 
 Receipt ready for Walrus upload:
