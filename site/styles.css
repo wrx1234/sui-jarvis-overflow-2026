@@ -100,6 +100,10 @@ h2 {
   white-space: nowrap;
 }
 
+.status-link {
+  text-decoration: none;
+}
+
 .status.ready {
   background: var(--ok-bg);
   border-color: #addbc8;
@@ -311,6 +315,13 @@ code {
   background: #2747bd;
 }
 
+a {
+  color: var(--accent-2);
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 .evidence-band {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -324,6 +335,26 @@ code {
   padding-left: 18px;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.video-shell {
+  max-width: 1040px;
+}
+
+.video-panel {
+  margin-top: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #111;
+  box-shadow: var(--shadow);
+}
+
+.video-panel video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
 }
 
 @media (max-width: 900px) {
@@ -373,4 +404,3 @@ code {
     flex-direction: column;
   }
 }
-

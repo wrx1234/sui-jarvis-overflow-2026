@@ -14,6 +14,7 @@ AI tools were used to accelerate research, planning, code scaffolding, and docum
 - Refactoring the project narrative from a Telegram DeFi bot into a policy-bound Sui agent wallet.
 - Drafting the local policy/risk/audit proof runner.
 - Drafting the static demo site.
+- Rendering the captioned fallback demo video from human-reviewed evidence.
 - Drafting README, competitor scan, demo script, and submission checklist.
 
 ## Human-Reviewed Areas
@@ -28,6 +29,7 @@ AI tools were used to accelerate research, planning, code scaffolding, and docum
 - The Move policy package is published on Sui testnet, but the demo intentionally limits execution to policy events and receipt proofs instead of live fund movement.
 - The Walrus receipt stores one audit JSON proof for the allowed action; it is not a full production agent memory system yet.
 - The static site displays deterministic local proof evidence plus linked testnet/Walrus evidence; it is not a live indexer.
+- The submitted video is a captioned fallback walkthrough generated from the public evidence; a narrated screen recording can replace it later.
 - Telegram remains a planned thin command surface and is not part of the core submitted proof.
 
 ## Sensitive Data Handling

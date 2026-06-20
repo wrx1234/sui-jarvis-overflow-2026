@@ -20,7 +20,7 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - Secondary narrative: DeFi & Payments, only if payment/swap demo is real
 - GitHub repo: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
 - Website: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
-- Video: 3 to 5 minutes, show policy creation, allowed action, paused-action failure
+- Video: `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html`
 - Package ID: `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`
 - Deploy network: Testnet unless mainnet is actually used
 - Media: screenshots of policy dashboard, receipt, pause failure
@@ -35,7 +35,8 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - Done: minimal website with evidence links is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
 - Done: README includes positioning, Sui policy enforcement, audit receipts, and security rules.
 - Done: secret scan found no committed token/private-key material; only `.gitignore` contains `wallets.json` as an excluded filename.
-- Required before DeepSurge submit: record and upload a short demo video.
+- Done: captioned fallback demo video is published and under 5 minutes.
+- Optional before final judging: replace the fallback video with a narrated screen recording.
 - Required before any Telegram demo: rotate any old Telegram token or credential from the previous repo.
 
 ## Do Not Submit

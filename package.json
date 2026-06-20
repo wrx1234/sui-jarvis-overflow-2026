@@ -6,6 +6,7 @@
   "description": "Clean Sui Overflow 2026 reboot of Sui Jarvis as a bounded agent wallet.",
   "scripts": {
     "demo:proof": "node src/demo-proof.mjs",
+    "demo:video": "python3 scripts/render-demo-video.py",
     "site": "node scripts/serve-site.mjs",
     "test": "node src/demo-proof.mjs"
   },

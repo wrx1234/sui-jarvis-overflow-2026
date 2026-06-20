@@ -43,12 +43,13 @@ Sui object ownership, shared objects, events, capabilities, and programmable tra
 - Walrus blob object: `0x4e07753366b797e96754d6b00fae4e28b903b4558ecd0c8a213d07b3cf89e059`
 - GitHub URL: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
 - Website URL: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
-- Video URL: pending upload
+- Video URL: `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html`
 
 ## Known Limitations
 
 - Demo execution is on Sui testnet and focuses on policy events, pause control, and audit receipts rather than live mainnet trading.
 - Walrus is used for one durable audit receipt, not a full production memory layer.
+- The demo video is a captioned fallback walkthrough; it can be replaced by a narrated screen recording before final judging.
 - Telegram is intentionally secondary; the core proof is the Sui policy object plus deterministic risk/audit flow.
 
 ## Demo Video Script

@@ -64,6 +64,7 @@ Verified locally:
 | Walrus receipt blob | `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU` |
 | Walrus blob object | `0x4e07753366b797e96754d6b00fae4e28b903b4558ecd0c8a213d07b3cf89e059` |
 | Demo site | `https://wrx1234.github.io/sui-jarvis-overflow-2026/` |
+| Demo video | `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html` |
 
 Explorer links:
 
@@ -96,7 +97,7 @@ Expected result:
 ## Delivery Targets
 
 1. Public dashboard is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
-2. Record a demo video with the package, policy, action, pause, and blocked transaction evidence.
+2. Captioned fallback demo video is published at `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html`.
 3. Add Telegram as a thin command surface after policy proof is working.
 4. Put package ID, transaction digest, Walrus blob ID, website, GitHub, and video in DeepSurge.
 

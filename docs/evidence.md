@@ -44,11 +44,15 @@ Public URL:
 https://wrx1234.github.io/sui-jarvis-overflow-2026/
 ```
 
-GitHub Pages workflow:
+Demo video URL:
 
 ```text
-27864609540
+https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html
 ```
+
+GitHub Pages workflow: `Deploy demo site`
+
+After each push, verify the latest workflow run in GitHub Actions and check the public URLs below.
 
 ## Sui Testnet
 
@@ -94,9 +98,9 @@ After the demo sequence, the policy object is paused:
 
 The blocked post-pause transaction aborts in `record_action` with code `3`, mapped to `E_PAUSED`.
 
-## Pending Evidence
+## Pending Submission Evidence
 
-- Demo video URL.
+- DeepSurge final submission confirmation URL or screenshot.
 
 ## Final Verification
 
@@ -107,6 +111,7 @@ Checked on 2026-06-20 after the public push:
 - Public GitHub repo visibility is `PUBLIC`.
 - GitHub Pages returned HTTP 200.
 - Public page contains `Sui Jarvis`, `Walrus receipt published`, package prefix `0x71bc67df`, and Walrus blob prefix `IkZI68QW`.
+- Captioned demo video file is 172 seconds and under 5 minutes.
 - Secret scan found no committed token/private-key material; the only match was `.gitignore` excluding `wallets.json`.
 
 ## GitHub

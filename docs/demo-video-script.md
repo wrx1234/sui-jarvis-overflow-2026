@@ -2,6 +2,14 @@
 
 Target length: 4:30 to 5:00.
 
+Public fallback video:
+
+```text
+https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html
+```
+
+The public fallback is a captioned walkthrough generated from the evidence below. Use this script if replacing it with a narrated screen recording.
+
 ## 0:00 - 0:20 Title
 
 Show the local or public site.
@@ -101,4 +109,3 @@ Say:
 - Do not show `.env`, shell history, wallet config, private keys, tokens, cookies, or old bot logs.
 - Keep video under 5 minutes.
 - Upload the video as public or unlisted and paste the URL into DeepSurge.
-
