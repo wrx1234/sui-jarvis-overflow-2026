@@ -21,6 +21,7 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - GitHub repo: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
 - Website: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
 - Video: `https://wrx1234.github.io/sui-jarvis-overflow-2026/demo-video.html`
+- Logo: `https://wrx1234.github.io/sui-jarvis-overflow-2026/logo.svg`
 - Package ID: `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`
 - Deploy network: Testnet unless mainnet is actually used
 - Media: screenshots of policy dashboard, receipt, pause failure
