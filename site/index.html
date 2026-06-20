@@ -7,28 +7,61 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="shell">
-      <section class="topbar" aria-label="Project status">
-        <div>
-          <p class="eyebrow">Sui Overflow 2026 · The Agentic Web</p>
-          <h1>Sui Jarvis</h1>
-          <p class="subtitle">Policy-bound agent wallet with deterministic risk checks and audit receipts.</p>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Sui Jarvis home">
+        <span class="brand-mark">J</span>
+        <span>Sui Jarvis</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#policy">Policy</a>
+        <a href="#telegram">Telegram</a>
+        <a href="#proof">Proof</a>
+        <a href="#evidence">Evidence</a>
+        <a href="./demo-video.html">Demo</a>
+      </nav>
+      <a class="header-action" href="https://github.com/wrx1234/sui-jarvis-overflow-2026">GitHub</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Sui Overflow 2026 / The Agentic Web</p>
+          <h1>Policy-bound agent wallet for Sui.</h1>
+          <p class="subtitle">
+            Jarvis turns agent authority into a Sui object: capped, revocable, and auditable before an action is recorded.
+          </p>
+          <div class="hero-actions" aria-label="Submission links">
+            <a class="button primary" href="./demo-video.html">Watch demo</a>
+            <a class="button" href="#evidence">Review evidence</a>
+          </div>
         </div>
-        <div class="status-stack" aria-label="Submission evidence">
-          <span class="status ready">Local proof passing</span>
-          <span class="status ready">Testnet package published</span>
-          <span class="status ready">Walrus receipt published</span>
-          <a class="status ready status-link" href="./demo-video.html">Demo video ready</a>
-        </div>
+
+        <aside class="terminal" aria-label="Jarvis status console">
+          <div class="terminal-bar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="terminal-body">
+            <p><span>$</span> jarvis policy status</p>
+            <p class="ok">local proof passing</p>
+            <p class="ok">testnet package published</p>
+            <p class="ok">walrus receipt published</p>
+            <p><span>$</span> active track</p>
+            <p>The Agentic Web</p>
+            <p><span>$</span> review surface</p>
+            <p>GitHub + Pages + SuiScan + Walrus</p>
+          </div>
+        </aside>
       </section>
 
       <section class="metrics" aria-label="Evidence summary">
         <article>
-          <span>Allowed action</span>
+          <span>Allowed receipt</span>
           <strong id="allowedDigest">5d01d64e...</strong>
         </article>
         <article>
-          <span>Blocked action</span>
+          <span>Blocked receipt</span>
           <strong id="blockedDigest">2ac0ef49...</strong>
         </article>
         <article>
@@ -41,90 +74,136 @@
         </article>
       </section>
 
-      <section class="workspace">
-        <aside class="panel policy-panel">
-          <div class="panel-header">
-            <p class="eyebrow">Policy Object</p>
-            <h2>Delegated Authority</h2>
+      <section id="policy" class="section-grid">
+        <div class="section-copy">
+          <p class="eyebrow">Delegated Authority</p>
+          <h2>Rules before execution.</h2>
+          <p>
+            A user delegates narrow authority first. The agent can only act within explicit spend limits, allowlists, expiry, and owner pause control.
+          </p>
+        </div>
+        <dl class="policy-list">
+          <div>
+            <dt>Package</dt>
+            <dd>0x71bc67df...56fe4</dd>
           </div>
-          <dl class="policy-list">
-            <div>
-              <dt>Agent</dt>
-              <dd>0xagent_demo</dd>
-            </div>
-            <div>
-              <dt>Max per action</dt>
-              <dd>0.5 SUI</dd>
-            </div>
-            <div>
-              <dt>Daily limit</dt>
-              <dd>1.5 SUI</dd>
-            </div>
-            <div>
-              <dt>Allowlisted protocols</dt>
-              <dd>Cetus sim, DeepBook sim, Sui transfer</dd>
-            </div>
-            <div>
-              <dt>Allowlisted recipients</dt>
-              <dd>2 demo addresses</dd>
-            </div>
-            <div>
-              <dt>Owner control</dt>
-              <dd>pause / unpause / reset daily spend</dd>
-            </div>
-          </dl>
-        </aside>
-
-        <section class="panel">
-          <div class="panel-header row">
-            <div>
-              <p class="eyebrow">Live Proof View</p>
-              <h2 id="scenarioTitle">Allowed Action</h2>
-            </div>
-            <div class="segmented" role="tablist" aria-label="Proof scenarios">
-              <button class="active" data-scenario="allowed" role="tab">Allowed</button>
-              <button data-scenario="blocked" role="tab">Blocked</button>
-              <button data-scenario="paused" role="tab">Paused</button>
-            </div>
+          <div>
+            <dt>Policy object</dt>
+            <dd>0x05890c98...b0f3c</dd>
           </div>
-
-          <div class="intent-line">
-            <span id="scenarioBadge" class="status ready">allowed</span>
-            <code id="intentText">swap 0.3 SUI through cetus-sim</code>
+          <div>
+            <dt>Max per action</dt>
+            <dd>0.5 SUI</dd>
           </div>
-
-          <div class="check-grid" id="checkGrid"></div>
-
-          <div class="receipt">
-            <div>
-              <p class="eyebrow">Receipt Digest</p>
-              <code id="receiptDigest"></code>
-            </div>
-            <button id="copyDigest" class="command" type="button" aria-label="Copy receipt digest">Copy</button>
+          <div>
+            <dt>Daily limit</dt>
+            <dd>1.5 SUI</dd>
           </div>
-        </section>
+          <div>
+            <dt>Allowlisted protocols</dt>
+            <dd>Cetus sim / DeepBook sim / Sui transfer</dd>
+          </div>
+          <div>
+            <dt>Owner control</dt>
+            <dd>pause / unpause / reset daily spend</dd>
+          </div>
+        </dl>
       </section>
 
-      <section class="evidence-band" aria-label="Submission readiness">
-        <div>
-          <p class="eyebrow">Ready Evidence</p>
-          <ul>
-            <li>Deterministic policy proof runner</li>
-            <li>Allowed, blocked, and pause-failure receipts</li>
-            <li>Testnet package and policy object</li>
-          </ul>
+      <section id="telegram" class="telegram-section">
+        <div class="section-copy">
+          <p class="eyebrow">Command Surface</p>
+          <h2>Telegram is the entry, not the custody layer.</h2>
+          <p>
+            Jarvis can receive intent in chat, but policy enforcement lives in the Sui object and proof runner. The public submission uses the website and chain evidence first; a live Telegram demo should only be enabled after rotating old bot credentials.
+          </p>
         </div>
-        <div>
-          <p class="eyebrow">Chain Evidence</p>
-          <ul>
-            <li>Package: <code>0x71bc67df...56fe4</code></li>
-            <li>Policy: <code>0x05890c98...b0f3c</code></li>
-            <li>Walrus: <code>IkZI68QW...uaYjU</code></li>
-            <li>Video: <a href="./demo-video.html">captioned demo</a></li>
-          </ul>
+        <div class="chat-demo" aria-label="Telegram command preview">
+          <div class="chat-line user">/policy</div>
+          <div class="chat-line bot">Max per action: 0.5 SUI. Daily limit: 1.5 SUI. Status: active.</div>
+          <div class="chat-line user">swap 0.3 SUI via Cetus</div>
+          <div class="chat-line bot">Allowed. Risk score 22/40. Receipt digest ready.</div>
+          <div class="chat-line user">pause policy</div>
+          <div class="chat-line bot">Policy paused. Any new action aborts with E_PAUSED.</div>
         </div>
+      </section>
+
+      <section id="proof" class="proof-panel" aria-label="Interactive proof view">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Proof Runner</p>
+            <h2 id="scenarioTitle">Allowed Action</h2>
+          </div>
+          <div class="segmented" role="tablist" aria-label="Proof scenarios">
+            <button class="active" data-scenario="allowed" role="tab">Allowed</button>
+            <button data-scenario="blocked" role="tab">Blocked</button>
+            <button data-scenario="paused" role="tab">Paused</button>
+          </div>
+        </div>
+
+        <div class="intent-line">
+          <span id="scenarioBadge" class="status ready">allowed</span>
+          <code id="intentText">swap 0.3 SUI through cetus-sim</code>
+        </div>
+
+        <div class="check-grid" id="checkGrid"></div>
+
+        <div class="receipt">
+          <div>
+            <p class="eyebrow">Receipt Digest</p>
+            <code id="receiptDigest"></code>
+          </div>
+          <button id="copyDigest" class="command" type="button" aria-label="Copy receipt digest">Copy</button>
+        </div>
+      </section>
+
+      <section id="evidence" class="evidence-section">
+        <div class="section-copy">
+          <p class="eyebrow">Submission Packet</p>
+          <h2>Everything a reviewer needs.</h2>
+          <p>Public links for source, demo, policy object, transactions, Walrus receipt, and AI disclosure.</p>
+        </div>
+        <div class="evidence-grid">
+          <a class="evidence-card" href="https://github.com/wrx1234/sui-jarvis-overflow-2026">
+            <span>GitHub</span>
+            <strong>Public repo</strong>
+            <small>README, Move package, evidence docs</small>
+          </a>
+          <a class="evidence-card" href="./demo-video.html">
+            <span>Demo</span>
+            <strong>184 second walkthrough</strong>
+            <small>Policy, allowed action, pause failure, Walrus</small>
+          </a>
+          <a class="evidence-card" href="https://suiscan.xyz/testnet/object/0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4">
+            <span>SuiScan</span>
+            <strong>Testnet package</strong>
+            <small>0x71bc67df...56fe4</small>
+          </a>
+          <a class="evidence-card" href="https://suiscan.xyz/testnet/tx/AnGDxCJ52A4xZbGWotqArHbbFvxvWvpAKJH8gAnNwzpa">
+            <span>Control</span>
+            <strong>Paused-action failure</strong>
+            <small>Abort code 3 / E_PAUSED</small>
+          </a>
+          <a class="evidence-card" href="https://github.com/wrx1234/sui-jarvis-overflow-2026/blob/main/receipts/allowed-action.audit.json">
+            <span>Walrus</span>
+            <strong>Audit receipt</strong>
+            <small>IkZI68QW...uaYjU</small>
+          </a>
+          <a class="evidence-card" href="https://github.com/wrx1234/sui-jarvis-overflow-2026/blob/main/AI_DISCLOSURE.md">
+            <span>Disclosure</span>
+            <strong>AI use and limits</strong>
+            <small>Human-reviewed boundaries</small>
+          </a>
+        </div>
+      </section>
+
+      <section class="footer-cta">
+        <p class="eyebrow">DeepSurge Ready</p>
+        <h2>Sui Jarvis: bounded, revocable, auditable agent authority.</h2>
+        <p>Use this page as the website URL and the demo page as the video URL when submitting.</p>
       </section>
     </main>
+
     <script type="module" src="./app.js"></script>
   </body>
 </html>

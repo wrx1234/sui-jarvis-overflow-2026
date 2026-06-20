@@ -111,7 +111,7 @@ Checked on 2026-06-20 after the public push:
 - Public GitHub repo visibility is `PUBLIC`.
 - GitHub Pages returned HTTP 200.
 - Public page contains `Sui Jarvis`, `Walrus receipt published`, package prefix `0x71bc67df`, and Walrus blob prefix `IkZI68QW`.
-- Captioned demo video file is 172 seconds and under 5 minutes.
+- Captioned demo video file is 184 seconds and under 5 minutes.
 - Secret scan found no committed token/private-key material; the only match was `.gitignore` excluding `wallets.json`.
 
 ## GitHub

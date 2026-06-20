@@ -37,14 +37,15 @@ MONO = font(22)
 
 
 COLORS = {
-    "bg": (247, 249, 248),
-    "ink": (23, 33, 28),
-    "muted": (82, 97, 88),
-    "line": (206, 218, 211),
-    "accent": (15, 124, 103),
-    "blue": (54, 90, 216),
-    "danger": (163, 51, 61),
-    "panel": (255, 255, 255),
+    "bg": (8, 9, 13),
+    "grid": (22, 30, 44),
+    "ink": (248, 250, 252),
+    "muted": (156, 163, 175),
+    "line": (58, 72, 94),
+    "accent": (77, 162, 255),
+    "blue": (125, 211, 252),
+    "danger": (251, 113, 133),
+    "panel": (15, 23, 42),
 }
 
 
@@ -72,6 +73,18 @@ SLIDES = [
         ],
         "footer": "Design target: revocable, auditable, policy-first wallet delegation.",
         "duration": 13,
+    },
+    {
+        "kicker": "Product shape",
+        "title": "Telegram is an entry",
+        "subtitle": "The policy object is the product boundary",
+        "bullets": [
+            "Users can express intent in chat: policy, swap, pause, review.",
+            "Telegram does not hold custody or decide alone.",
+            "The submitted proof shows the policy/risk/audit layer first.",
+        ],
+        "footer": "Live Telegram should be enabled after rotating old bot credentials.",
+        "duration": 12,
     },
     {
         "kicker": "Sui-native core",
@@ -204,6 +217,11 @@ def render_slide(slide, index, total, output):
     draw = ImageDraw.Draw(image)
 
     margin = 74
+    for x in range(0, WIDTH, 42):
+        draw.line((x, 0, x, HEIGHT), fill=COLORS["grid"], width=1)
+    for y in range(0, HEIGHT, 42):
+        draw.line((0, y, WIDTH, y), fill=COLORS["grid"], width=1)
+
     draw.rounded_rectangle(
         (margin - 18, 52, WIDTH - margin + 18, HEIGHT - 58),
         radius=18,
@@ -226,7 +244,7 @@ def render_slide(slide, index, total, output):
     draw_wrapped(draw, (margin, HEIGHT - 112), slide["footer"], SMALL, COLORS["muted"], 95, 4)
 
     progress_w = int((WIDTH - margin * 2) * ((index + 1) / total))
-    draw.rounded_rectangle((margin, HEIGHT - 34, WIDTH - margin, HEIGHT - 26), radius=4, fill=(226, 233, 229))
+    draw.rounded_rectangle((margin, HEIGHT - 34, WIDTH - margin, HEIGHT - 26), radius=4, fill=(30, 41, 59))
     draw.rounded_rectangle((margin, HEIGHT - 34, margin + progress_w, HEIGHT - 26), radius=4, fill=COLORS["accent"])
     draw.text((WIDTH - margin - 112, HEIGHT - 62), f"{index + 1}/{total}", font=MONO, fill=COLORS["muted"])
 
