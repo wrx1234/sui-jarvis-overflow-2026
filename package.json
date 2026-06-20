@@ -7,6 +7,8 @@
   "scripts": {
     "bot": "node bot/telegram-bot.mjs",
     "bot:dry": "node bot/telegram-bot.mjs --dry-run",
+    "bot:profile": "node scripts/configure-telegram-profile.mjs",
+    "bot:profile:dry": "node scripts/configure-telegram-profile.mjs --dry-run",
     "demo:proof": "node src/demo-proof.mjs",
     "demo:video": "python3 scripts/render-demo-video.py",
     "site": "node scripts/serve-site.mjs",

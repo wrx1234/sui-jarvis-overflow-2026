@@ -35,6 +35,28 @@ Dry run renders the command panels without contacting Telegram.
 npm run bot:dry
 ```
 
+Dry run the Telegram profile configuration:
+
+```bash
+npm run bot:profile:dry
+```
+
+## Configure Bot Profile
+
+After `TELEGRAM_BOT_TOKEN` is set outside git, configure the Telegram profile directly through the Bot API:
+
+```bash
+npm run bot:profile
+```
+
+This sets:
+
+- Bot name: `Sui Jarvis`
+- Short description
+- Full description
+- Bot commands
+- Profile photo from `site/telegram-bot-avatar.jpg`
+
 ## Start The Bot
 
 ```bash
@@ -66,9 +88,9 @@ Useful direct commands:
 /help
 ```
 
-## BotFather Setup
+## BotFather Fallback
 
-Telegram bot profile photo cannot be changed through this bot process. Set it manually in BotFather:
+The direct profile script should be preferred. If the Bot API profile call fails for account-level reasons, use BotFather manually:
 
 1. Open `@BotFather`.
 2. Use `/setuserpic`.
@@ -76,7 +98,7 @@ Telegram bot profile photo cannot be changed through this bot process. Set it ma
 4. Upload:
 
 ```text
-site/telegram-bot-avatar.png
+site/telegram-bot-avatar.jpg
 ```
 
 Suggested description:
