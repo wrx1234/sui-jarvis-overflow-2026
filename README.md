@@ -44,7 +44,7 @@ Public links:
 Verified locally:
 
 - `npm test` passes.
-- `npm run site` serves the local judge-facing proof dashboard.
+- `npm run site` serves the local judge-facing website.
 - `sui move build` passes with Sui CLI `1.73.0-homebrew`.
 - `sui client publish` succeeded on Sui testnet.
 

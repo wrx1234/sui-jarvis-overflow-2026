@@ -32,7 +32,7 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - Done: `agent_policy.move` published to Sui testnet as package `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`.
 - Done: publish, create policy, action, pause, and blocked retry digests are in `docs/evidence.md`.
 - Done: one action receipt is stored on Walrus as blob `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU`.
-- Done: minimal website with evidence links is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
+- Done: public Sui Jarvis website is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/` with demo video and GitHub links.
 - Done: README includes positioning, Sui policy enforcement, audit receipts, and security rules.
 - Done: secret scan found no committed token/private-key material; only `.gitignore` contains `wallets.json` as an excluded filename.
 - Done: captioned fallback demo video is published and under 5 minutes.

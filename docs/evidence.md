@@ -34,9 +34,9 @@ http://localhost:4173
 
 Browser check:
 
-- Desktop DOM rendered.
-- Scenario tabs switch between allowed, blocked, and paused proof states.
-- Mobile width 390px has no horizontal overflow.
+- Desktop DOM rendered from the restored Sui Jarvis website shell.
+- Hero, Telegram Entry, Reviewer Dashboard, Watch Demo, and GitHub links are present.
+- No old public Telegram bot URL or old `sui-hackathon` GitHub URL is present in the deployed site bundle.
 
 Public URL:
 
@@ -110,7 +110,8 @@ Checked on 2026-06-20 after the public push:
 - `sui move build` passed in `contracts/`.
 - Public GitHub repo visibility is `PUBLIC`.
 - GitHub Pages returned HTTP 200.
-- Public page contains `Sui Jarvis`, `Walrus receipt published`, package prefix `0x71bc67df`, and Walrus blob prefix `IkZI68QW`.
+- Public site, JavaScript bundle, demo video page, and MP4 returned HTTP 200.
+- Public bundle contains `Policy-Bound Agent Wallet`, `Telegram Entry`, `Reviewer Dashboard`, `Watch Demo`, the new GitHub URL, and `./demo-video.html`.
 - Captioned demo video file is 184 seconds and under 5 minutes.
 - Secret scan found no committed token/private-key material; the only match was `.gitignore` excluding `wallets.json`.
 
