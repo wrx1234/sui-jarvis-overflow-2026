@@ -47,7 +47,7 @@ https://wrx1234.github.io/sui-jarvis-overflow-2026/
 GitHub Pages workflow:
 
 ```text
-27864574297
+27864609540
 ```
 
 ## Sui Testnet
@@ -97,6 +97,17 @@ The blocked post-pause transaction aborts in `record_action` with code `3`, mapp
 ## Pending Evidence
 
 - Demo video URL.
+
+## Final Verification
+
+Checked on 2026-06-20 after the public push:
+
+- `npm test` passed.
+- `sui move build` passed in `contracts/`.
+- Public GitHub repo visibility is `PUBLIC`.
+- GitHub Pages returned HTTP 200.
+- Public page contains `Sui Jarvis`, `Walrus receipt published`, package prefix `0x71bc67df`, and Walrus blob prefix `IkZI68QW`.
+- Secret scan found no committed token/private-key material; the only match was `.gitignore` excluding `wallets.json`.
 
 ## GitHub
 

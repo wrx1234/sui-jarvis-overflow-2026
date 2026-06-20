@@ -22,7 +22,7 @@ The demo shows three proofs:
 2. An oversized 1.2 SUI action is blocked by the per-action cap and risk score.
 3. After the owner pauses the policy, the same small action fails before execution.
 
-Each decision creates a receipt digest, so reviewers can verify what the agent intended, which checks ran, and why the action was allowed or blocked. The submission path is to publish the Move policy package to Sui testnet, store one receipt JSON on Walrus, and expose the proof through a minimal web dashboard and optional Telegram command surface.
+Each decision creates a receipt digest, so reviewers can verify what the agent intended, which checks ran, and why the action was allowed or blocked. This submission publishes the Move policy package to Sui testnet, stores one receipt JSON on Walrus, and exposes the proof through a minimal web dashboard and optional Telegram command surface.
 
 ## Why Sui
 
@@ -44,6 +44,12 @@ Sui object ownership, shared objects, events, capabilities, and programmable tra
 - GitHub URL: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
 - Website URL: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
 - Video URL: pending upload
+
+## Known Limitations
+
+- Demo execution is on Sui testnet and focuses on policy events, pause control, and audit receipts rather than live mainnet trading.
+- Walrus is used for one durable audit receipt, not a full production memory layer.
+- Telegram is intentionally secondary; the core proof is the Sui policy object plus deterministic risk/audit flow.
 
 ## Demo Video Script
 

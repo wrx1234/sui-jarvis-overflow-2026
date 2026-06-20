@@ -18,24 +18,25 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - Project name: Sui Jarvis
 - Track: The Agentic Web
 - Secondary narrative: DeFi & Payments, only if payment/swap demo is real
-- GitHub repo: new clean repo, not the old `sui-hackathon`
-- Website: required for competitive polish
+- GitHub repo: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
+- Website: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
 - Video: 3 to 5 minutes, show policy creation, allowed action, paused-action failure
-- Package ID: required once testnet Move package is published
+- Package ID: `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`
 - Deploy network: Testnet unless mainnet is actually used
 - Media: screenshots of policy dashboard, receipt, pause failure
 - AI disclosure: include tools, generated code areas, human review boundaries
 
 ## Must Finish Before Submission
 
-- Rotate any old Telegram token or credential from the previous repo before demo.
-- Publish `agent_policy.move` to Sui testnet. Done: package `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`.
-- Record package ID and at least one transaction digest. Done: publish, create policy, action, pause, and blocked retry digests are in `docs/evidence.md`.
-- Store one action receipt on Walrus or clearly mark local proof fallback. Done: blob `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU`.
-- Build a minimal website with evidence links. Done: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
-- Record a short demo video.
-- Add README section: "Why Sui", "Policy enforcement", "Audit receipts", "Security model".
-- Run a secret scan before making the new repo public.
+- Done: clean public GitHub repo is separate from the old `sui-hackathon`.
+- Done: `agent_policy.move` published to Sui testnet as package `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`.
+- Done: publish, create policy, action, pause, and blocked retry digests are in `docs/evidence.md`.
+- Done: one action receipt is stored on Walrus as blob `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU`.
+- Done: minimal website with evidence links is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
+- Done: README includes positioning, Sui policy enforcement, audit receipts, and security rules.
+- Done: secret scan found no committed token/private-key material; only `.gitignore` contains `wallets.json` as an excluded filename.
+- Required before DeepSurge submit: record and upload a short demo video.
+- Required before any Telegram demo: rotate any old Telegram token or credential from the previous repo.
 
 ## Do Not Submit
 

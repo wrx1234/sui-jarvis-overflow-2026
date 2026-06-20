@@ -28,11 +28,12 @@ Telegram is a useful demo entrance, not the product. The competitive set already
 
 ## Current Repo Status
 
-This repo is a clean MVP scaffold:
+This repo is a clean submission MVP:
 
 - Local proof runner for policy enforcement and audit receipt hashing.
-- Move contract scaffold for a shared policy object.
-- Submission checklist, competitor scan, and demo script.
+- Published Sui testnet Move package for a shared policy object.
+- Walrus testnet receipt for the allowed action audit JSON.
+- Public judge-facing website, submission checklist, competitor scan, and demo video script.
 - No secrets and no copied old bot data.
 
 Public links:
@@ -94,7 +95,7 @@ Expected result:
 
 ## Delivery Targets
 
-1. Deploy the static dashboard publicly.
+1. Public dashboard is deployed at `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
 2. Record a demo video with the package, policy, action, pause, and blocked transaction evidence.
 3. Add Telegram as a thin command surface after policy proof is working.
 4. Put package ID, transaction digest, Walrus blob ID, website, GitHub, and video in DeepSurge.

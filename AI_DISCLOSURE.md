@@ -25,11 +25,11 @@ AI tools were used to accelerate research, planning, code scaffolding, and docum
 
 ## Known Limitations
 
-- The current Move policy module is still a scaffold until `sui move build` completes and the package is published to Sui testnet.
-- The current Walrus receipt ID in the local proof is a placeholder until a real blob is written.
-- The static site currently displays deterministic local proof evidence, not live chain state.
+- The Move policy package is published on Sui testnet, but the demo intentionally limits execution to policy events and receipt proofs instead of live fund movement.
+- The Walrus receipt stores one audit JSON proof for the allowed action; it is not a full production agent memory system yet.
+- The static site displays deterministic local proof evidence plus linked testnet/Walrus evidence; it is not a live indexer.
+- Telegram remains a planned thin command surface and is not part of the core submitted proof.
 
 ## Sensitive Data Handling
 
 No real Telegram bot token, private key, seed phrase, wallet JSON, cookie, API key, or full runtime log should be committed. The new repo was created separately from the older Sui Jarvis repository to avoid carrying old runtime data into the public submission.
-
