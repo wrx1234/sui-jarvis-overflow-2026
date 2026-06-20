@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sui Jarvis Overflow 2026</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="Project status">
+        <div>
+          <p class="eyebrow">Sui Overflow 2026 · The Agentic Web</p>
+          <h1>Sui Jarvis</h1>
+          <p class="subtitle">Policy-bound agent wallet with deterministic risk checks and audit receipts.</p>
+        </div>
+        <div class="status-stack" aria-label="Submission evidence">
+          <span class="status ready">Local proof passing</span>
+          <span class="status ready">Testnet package published</span>
+          <span class="status ready">Walrus receipt published</span>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Evidence summary">
+        <article>
+          <span>Allowed action</span>
+          <strong id="allowedDigest">5d01d64e...</strong>
+        </article>
+        <article>
+          <span>Blocked action</span>
+          <strong id="blockedDigest">2ac0ef49...</strong>
+        </article>
+        <article>
+          <span>Pause proof</span>
+          <strong id="pauseDigest">2ed488b6...</strong>
+        </article>
+        <article>
+          <span>Network</span>
+          <strong>Sui testnet</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel policy-panel">
+          <div class="panel-header">
+            <p class="eyebrow">Policy Object</p>
+            <h2>Delegated Authority</h2>
+          </div>
+          <dl class="policy-list">
+            <div>
+              <dt>Agent</dt>
+              <dd>0xagent_demo</dd>
+            </div>
+            <div>
+              <dt>Max per action</dt>
+              <dd>0.5 SUI</dd>
+            </div>
+            <div>
+              <dt>Daily limit</dt>
+              <dd>1.5 SUI</dd>
+            </div>
+            <div>
+              <dt>Allowlisted protocols</dt>
+              <dd>Cetus sim, DeepBook sim, Sui transfer</dd>
+            </div>
+            <div>
+              <dt>Allowlisted recipients</dt>
+              <dd>2 demo addresses</dd>
+            </div>
+            <div>
+              <dt>Owner control</dt>
+              <dd>pause / unpause / reset daily spend</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <section class="panel">
+          <div class="panel-header row">
+            <div>
+              <p class="eyebrow">Live Proof View</p>
+              <h2 id="scenarioTitle">Allowed Action</h2>
+            </div>
+            <div class="segmented" role="tablist" aria-label="Proof scenarios">
+              <button class="active" data-scenario="allowed" role="tab">Allowed</button>
+              <button data-scenario="blocked" role="tab">Blocked</button>
+              <button data-scenario="paused" role="tab">Paused</button>
+            </div>
+          </div>
+
+          <div class="intent-line">
+            <span id="scenarioBadge" class="status ready">allowed</span>
+            <code id="intentText">swap 0.3 SUI through cetus-sim</code>
+          </div>
+
+          <div class="check-grid" id="checkGrid"></div>
+
+          <div class="receipt">
+            <div>
+              <p class="eyebrow">Receipt Digest</p>
+              <code id="receiptDigest"></code>
+            </div>
+            <button id="copyDigest" class="command" type="button" aria-label="Copy receipt digest">Copy</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="evidence-band" aria-label="Submission readiness">
+        <div>
+          <p class="eyebrow">Ready Evidence</p>
+          <ul>
+            <li>Deterministic policy proof runner</li>
+            <li>Allowed, blocked, and pause-failure receipts</li>
+            <li>Testnet package and policy object</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Chain Evidence</p>
+          <ul>
+            <li>Package: <code>0x71bc67df...56fe4</code></li>
+            <li>Policy: <code>0x05890c98...b0f3c</code></li>
+            <li>Walrus: <code>IkZI68QW...uaYjU</code></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

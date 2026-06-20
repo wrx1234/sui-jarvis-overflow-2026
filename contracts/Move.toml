@@ -1,0 +1,6 @@
+[package]
+name = "sui_jarvis_policy"
+edition = "2024.beta"
+
+[addresses]
+sui_jarvis_policy = "0x0"

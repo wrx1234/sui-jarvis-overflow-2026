@@ -1,0 +1,33 @@
+{
+  "schema": "sui-jarvis.audit.v1",
+  "record": {
+    "action": "swap",
+    "actor": "0xagent_demo",
+    "allowed": true,
+    "amountMist": 300000000,
+    "createdAt": "2026-06-20T00:00:00.000Z",
+    "eventType": "agent_intent_evaluated",
+    "failedChecks": [],
+    "intentId": "intent-swap-small",
+    "network": "testnet",
+    "policyId": "local-policy-demo",
+    "protocol": "cetus-sim",
+    "recipient": "0xrecipient_demo",
+    "source": "local-demo"
+  },
+  "digest": "5d01d64eb4479e8285f7968fc15f48444001deb42a86565432e42d6e7b13f312",
+  "chainEvidence": {
+    "network": "Sui testnet",
+    "packageId": "0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4",
+    "policyObjectId": "0x05890c9882df3a77bc6389bd895227f86343a2b7a3b48deb0c72a9ff76bb0f3c",
+    "policyCreatedTx": "EgkEqzqQKaMxsZgLwMAkj9FioV6MXrQQ3G6vtAG2LU8C",
+    "actionRecordedTx": "S4XpXVw1dfHghfpW77RU5NVjnKSE5ki1VLkHPZ5sMS9",
+    "pauseTx": "55hiHW7kTjhc2MmQGerFJTrKhv74Am1uDuxQ9D8iT8dC",
+    "postPauseBlockedTx": "AnGDxCJ52A4xZbGWotqArHbbFvxvWvpAKJH8gAnNwzpa",
+    "postPauseAbort": {
+      "function": "agent_policy::record_action",
+      "code": 3,
+      "name": "E_PAUSED"
+    }
+  }
+}
