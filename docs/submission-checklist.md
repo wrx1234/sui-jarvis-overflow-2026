@@ -32,7 +32,7 @@ Source: DeepSurge public hackathon API, checked 2026-06-20.
 - Publish `agent_policy.move` to Sui testnet. Done: package `0x71bc67dfb5d5009c27d27f787f47493b11aeac21f23ec732c5623480bdd56fe4`.
 - Record package ID and at least one transaction digest. Done: publish, create policy, action, pause, and blocked retry digests are in `docs/evidence.md`.
 - Store one action receipt on Walrus or clearly mark local proof fallback. Done: blob `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU`.
-- Build a minimal website with evidence links. Local site done via `npm run site`; public deployment pending.
+- Build a minimal website with evidence links. Done: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`.
 - Record a short demo video.
 - Add README section: "Why Sui", "Policy enforcement", "Audit receipts", "Security model".
 - Run a secret scan before making the new repo public.

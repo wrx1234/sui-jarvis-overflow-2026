@@ -38,6 +38,18 @@ Browser check:
 - Scenario tabs switch between allowed, blocked, and paused proof states.
 - Mobile width 390px has no horizontal overflow.
 
+Public URL:
+
+```text
+https://wrx1234.github.io/sui-jarvis-overflow-2026/
+```
+
+GitHub Pages workflow:
+
+```text
+27864574297
+```
+
 ## Sui Testnet
 
 | Evidence | Value |
@@ -84,9 +96,15 @@ The blocked post-pause transaction aborts in `record_action` with code `3`, mapp
 
 ## Pending Evidence
 
-- Public deployment URL for the static dashboard.
 - Demo video URL.
-- Public GitHub URL.
+
+## GitHub
+
+Public repo:
+
+```text
+https://github.com/wrx1234/sui-jarvis-overflow-2026
+```
 
 ## Walrus Receipt
 

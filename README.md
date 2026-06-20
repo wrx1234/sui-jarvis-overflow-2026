@@ -35,6 +35,11 @@ This repo is a clean MVP scaffold:
 - Submission checklist, competitor scan, and demo script.
 - No secrets and no copied old bot data.
 
+Public links:
+
+- GitHub: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
+- Demo site: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
+
 Verified locally:
 
 - `npm test` passes.
@@ -57,6 +62,7 @@ Verified locally:
 | Block reason | `record_action` abort code `3`, mapped to `E_PAUSED` |
 | Walrus receipt blob | `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU` |
 | Walrus blob object | `0x4e07753366b797e96754d6b00fae4e28b903b4558ecd0c8a213d07b3cf89e059` |
+| Demo site | `https://wrx1234.github.io/sui-jarvis-overflow-2026/` |
 
 Explorer links:
 

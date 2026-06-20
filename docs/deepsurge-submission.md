@@ -41,7 +41,8 @@ Sui object ownership, shared objects, events, capabilities, and programmable tra
 - Post-pause blocked tx: `AnGDxCJ52A4xZbGWotqArHbbFvxvWvpAKJH8gAnNwzpa`
 - Walrus blob ID: `IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU`
 - Walrus blob object: `0x4e07753366b797e96754d6b00fae4e28b903b4558ecd0c8a213d07b3cf89e059`
-- Website URL: pending GitHub Pages deployment
+- GitHub URL: `https://github.com/wrx1234/sui-jarvis-overflow-2026`
+- Website URL: `https://wrx1234.github.io/sui-jarvis-overflow-2026/`
 - Video URL: pending upload
 
 ## Demo Video Script
