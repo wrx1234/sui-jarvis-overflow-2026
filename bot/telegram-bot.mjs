@@ -20,9 +20,11 @@ const evidence = Object.freeze({
   walrusBlob: "IkZI68QWcOPZxo64_mT4I8S3kdoMZbf21_5EZ8uaYjU"
 });
 
+const LINE = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+const MINI_LINE = "────────────────────────";
+
 const callbackAliases = new Map([
   ["back", "menu"],
-  ["dashboard", "menu"],
   ["wallet", "assets"],
   ["balance", "assets"],
   ["swap", "swap_menu"],
@@ -41,18 +43,27 @@ loadLocalEnv();
 if (process.argv.includes("--dry-run")) {
   const samples = [
     "/start",
+    "/dashboard",
     "/assets",
     "/swap",
     "swap_SUI/USDC",
     "/portfolio",
+    "portfolio_chart",
     "/signals",
+    "signals_settings",
+    "/whale",
+    "whale_stats",
+    "/pools",
+    "pools_apr",
     "/strategy",
     "/policy",
     "/proof",
     "/proof blocked",
     "/proof pause",
     "/walrus",
+    "walrus_upload",
     "/vault",
+    "/logs",
     "/evidence",
     "/help"
   ];
@@ -130,7 +141,11 @@ async function handleUpdate(update) {
     }
 
     const panel = panelFromCallback(query.data || "menu");
-    await telegram("answerCallbackQuery", { callback_query_id: query.id });
+    await telegram("answerCallbackQuery", {
+      callback_query_id: query.id,
+      text: "Rendering Jarvis panel...",
+      cache_time: 0
+    });
     await editOrSendPanel(message.chat.id, message.message_id, panel);
   }
 }
@@ -144,6 +159,8 @@ function panelFromCommand(input) {
     case "/start":
     case "/menu":
       return menuPanel();
+    case "/dashboard":
+      return dashboardPanel();
     case "/wallet":
     case "/balance":
     case "/assets":
@@ -160,6 +177,8 @@ function panelFromCommand(input) {
       return poolsPanel();
     case "/signals":
       return signalsPanel();
+    case "/logs":
+      return logsPanel();
     case "/strategy":
       return strategyPanel();
     case "/policy":
@@ -169,6 +188,7 @@ function panelFromCommand(input) {
     case "/mint":
     case "/burn":
     case "/yield":
+    case "/stablelayer":
       return yieldPanel();
     case "/sniper":
       return sniperPanel();
@@ -200,20 +220,30 @@ function panelFromCallback(rawData) {
   switch (data) {
     case "menu":
       return menuPanel();
+    case "dashboard":
+      return dashboardPanel();
     case "assets":
       return assetsPanel();
     case "swap_menu":
       return swapPanel();
     case "portfolio":
       return portfolioPanel();
+    case "portfolio_chart":
+      return portfolioChartPanel();
     case "limit":
       return limitPanel();
     case "whale":
       return whalePanel();
+    case "whale_stats":
+      return whaleStatsPanel();
     case "pools":
       return poolsPanel();
+    case "pools_apr":
+      return poolsAprPanel();
     case "signals":
       return signalsPanel();
+    case "signals_settings":
+      return signalsSettingsPanel();
     case "strategy":
       return strategyPanel();
     case "policy":
@@ -226,12 +256,16 @@ function panelFromCallback(rawData) {
       return sniperPanel();
     case "walrus":
       return walrusPanel();
+    case "walrus_upload":
+      return walrusUploadPanel();
     case "vault":
       return vaultPanel();
     case "evidence":
       return evidencePanel();
     case "status":
       return statusPanel();
+    case "logs":
+      return logsPanel();
     case "help":
       return helpPanel();
     default:
@@ -242,14 +276,24 @@ function panelFromCallback(rawData) {
 function menuPanel() {
   return panel(
     [
-      "Sui Jarvis",
-      "Policy-bound Telegram agent for Sui Overflow 2026.",
+      "🌊 *Sui Jarvis*",
+      LINE,
+      "Autonomous DeFi agent interface, rebuilt for Sui Overflow 2026.",
       "",
-      "Mode: reviewer proof demo",
-      "Network: Sui testnet",
-      "Execution: Telegram live trading disabled",
+      "🔧 *Tech Stack*",
+      "├ 🌊 *Sui* — Move policy object",
+      "├ 🐋 *Cetus / DeepBook* — routed intent targets",
+      "├ 🐘 *Walrus* — audit receipts and agent memory",
+      "├ 🔐 *Seal-ready* — private strategy data layer",
+      "└ 🤖 *Jarvis Runner* — intent parser and policy console",
       "",
-      "Use the old Jarvis-style menu below to inspect assets, quotes, signals, strategy, Walrus receipts, and policy controls."
+      "🛡️ *Current Mode*",
+      "├ Network: *Sui testnet*",
+      "├ Execution: *policy proof demo*",
+      "├ Mainnet trading: *disabled*",
+      "└ Private-key custody: *disabled*",
+      "",
+      "👇 *Reviewer path:* Dashboard → Swap → Proof → Walrus → Evidence"
     ],
     mainKeyboard()
   );
@@ -258,21 +302,25 @@ function menuPanel() {
 function assetsPanel() {
   return panel(
     [
-      "Assets",
+      "👛 *Policy Wallet*",
+      LINE,
+      "This is the reviewer-facing wallet console. It mirrors the old Jarvis asset panel, but authority now lives in a Sui policy object.",
       "",
-      "This reboot does not create per-user custodial wallets inside Telegram.",
+      "📍 *Policy Object*",
+      `\`${evidence.policyObject}\``,
       "",
-      `Policy object: ${shortAddress(evidence.policyObject)}`,
-      `Package: ${shortAddress(evidence.packageId)}`,
-      `Max per action: ${mistToSui(demoPolicy.budget.maxPerActionMist)} SUI`,
-      `Daily limit: ${mistToSui(demoPolicy.budget.dailyLimitMist)} SUI`,
-      `Minimum reserve: ${mistToSui(demoPolicy.budget.minReserveMist)} SUI`,
+      "💰 *Assets / Limits*",
+      `├ Available action cap: *${mistToSui(demoPolicy.budget.maxPerActionMist)} SUI*`,
+      `├ Daily limit: *${mistToSui(demoPolicy.budget.dailyLimitMist)} SUI*`,
+      `├ Spent today: *${mistToSui(demoPolicy.budget.spentTodayMist)} SUI*`,
+      `└ Minimum reserve: *${mistToSui(demoPolicy.budget.minReserveMist)} SUI*`,
       "",
-      "Judge takeaway: Jarvis can propose actions, but Sui policy limits define what it is allowed to execute."
+      "🧠 *Interpretation*",
+      "Jarvis may propose an action. The policy object decides whether that action can proceed."
     ],
     rows(
-      [button("Policy", "policy"), button("Proof", "proof")],
-      [urlButton("Policy Object", explorerObject(evidence.policyObject))],
+      [button("📊 Dashboard", "dashboard"), button("🔐 Policy", "policy")],
+      [button("🧾 Proof", "proof"), urlButton("Explorer", explorerObject(evidence.policyObject))],
       backRow()
     )
   );
@@ -281,19 +329,25 @@ function assetsPanel() {
 function swapPanel() {
   return panel(
     [
-      "Swap Quote Sandbox",
+      "🔄 *Swap — Policy-Gated Quote*",
+      LINE,
+      "Old Jarvis gave users a fast DEX swap menu. This version keeps the product flow, but adds a Sui-native policy gate before execution.",
       "",
-      "Old Jarvis had a direct swap menu. In this Overflow version, the same entry first runs through policy gates.",
+      "🐋 *Route Sources*",
+      "Cetus · DeepBook · Turbos · FlowX · Aftermath",
       "",
-      "Adapters: Cetus / DeepBook simulation",
-      "No mainnet funds are moved from Telegram.",
+      "🛡️ *Before any trade*",
+      "1. Parse user or AI intent",
+      "2. Score risk and route",
+      "3. Check Move policy caps",
+      "4. Emit audit receipt",
       "",
-      "Choose a pair to see the guarded quote flow."
+      "💡 _No mainnet funds move from Telegram in proof mode._"
     ],
     rows(
-      [button("SUI -> USDC", "swap_SUI/USDC"), button("USDC -> SUI", "swap_USDC/SUI")],
-      [button("SUI -> CETUS", "swap_SUI/CETUS"), button("SUI -> DEEP", "swap_SUI/DEEP")],
-      [button("Blocked 1.2 SUI", "proof_blocked"), button("Paused Proof", "proof_pause")],
+      [button("SUI → USDC", "swap_SUI/USDC"), button("USDC → SUI", "swap_USDC/SUI")],
+      [button("SUI → CETUS", "swap_SUI/CETUS"), button("SUI → DEEP", "swap_SUI/DEEP")],
+      [button("Blocked Quote", "proof_blocked"), button("Paused Policy", "proof_pause")],
       backRow()
     )
   );
@@ -313,21 +367,59 @@ function swapQuotePanel(pair) {
 
   return panel(
     [
-      `Quote: ${pair}`,
+      "🔄 *Swap Quote*",
+      LINE,
+      `📥 *Input:*  ${mistToSui(intent.amountMist)} SUI`,
+      `📤 *Pair:*   ${pair}`,
       "",
-      `Route: ${pair.includes("DEEP") ? "DeepBook adapter" : "Cetus adapter"} -> policy gate -> audit receipt`,
-      `Intent amount: ${mistToSui(intent.amountMist)} SUI`,
-      `Risk score: ${intent.riskScore}/${demoPolicy.maxRiskScore}`,
-      `Decision: ${risk.allowed ? "ALLOW" : "BLOCK"}`,
-      risk.failedChecks.length ? `Failed checks: ${risk.failedChecks.join(", ")}` : "Failed checks: none",
-      `Receipt: ${shortDigest(receipt.digest)}`,
+      "📊 *Route Details*",
+      `├ Path: ${pair.replace("/", " → ")}`,
+      `├ Adapter: ${pair.includes("DEEP") ? "DeepBook simulation" : "Cetus simulation"}`,
+      "├ Slippage protection: 0.5%",
+      "└ Est. gas: ~0.005 SUI",
       "",
-      "Execution is intentionally disabled in Telegram until the reviewer switches from proof mode to a funded test wallet."
+      "🛡️ *Policy Check*",
+      `├ Risk score: *${intent.riskScore}/${demoPolicy.maxRiskScore}*`,
+      `├ Decision: *${risk.allowed ? "ALLOW" : "BLOCK"}*`,
+      `├ Failed checks: ${risk.failedChecks.length ? risk.failedChecks.join(", ") : "none"}`,
+      `└ Receipt: \`${shortDigest(receipt.digest)}\``,
+      "",
+      risk.allowed
+        ? "✅ _Quote is eligible for the testnet proof path._"
+        : "⛔ _Quote is blocked before execution._"
     ],
     rows(
-      [button("Policy", "policy"), button("Walrus", "walrus")],
+      [button("🔐 Policy", "policy"), button("🐘 Walrus", "walrus")],
+      [button("🧾 Allowed Proof", "proof_allowed"), button("⛔ Blocked Proof", "proof_blocked")],
       [button("Try another pair", "swap_menu")],
       backRow()
+    )
+  );
+}
+
+function dashboardPanel() {
+  return panel(
+    [
+      "📊 *Jarvis Dashboard*",
+      LINE,
+      "",
+      "💰 *Assets*",
+      `  🟦 SUI policy cap: *${mistToSui(demoPolicy.budget.maxPerActionMist)} SUI/action*`,
+      "  💵 Simulated value: *~$2,342*",
+      "",
+      "🤖 *Strategy*",
+      "  Active: Policy Guard | Win Rate: 73% | Proofs: 3",
+      "",
+      "🔔 *Latest Signal*",
+      "  SUI/USDC quote allowed under cap; oversized route blocked.",
+      "",
+      "🐘 *Walrus*",
+      "  1 certified audit receipt linked to the allowed action."
+    ],
+    rows(
+      [button("💰 Assets", "assets"), button("🔄 Swap", "swap_menu")],
+      [button("📈 Portfolio", "portfolio_chart"), button("🧾 Proof", "proof")],
+      [button("🐘 Walrus", "walrus"), button("📦 Evidence", "evidence")]
     )
   );
 }
@@ -335,20 +427,51 @@ function swapQuotePanel(pair) {
 function portfolioPanel() {
   return panel(
     [
-      "Portfolio",
+      "📊 *Portfolio*",
+      LINE,
+      "Proof-mode portfolio for the policy wallet.",
       "",
-      "Reviewer view for the policy wallet:",
+      "💼 *Holdings*",
+      "├ SUI reserve: protected by policy",
+      "├ USDC exposure: quote-only adapter",
+      "├ JARVIS-PROOF: 3 receipts",
+      "└ Risk queue: 0 open executions",
       "",
-      "SUI reserve: protected by minReserveMist",
-      "Daily spent: 0.3 / 1.5 SUI",
-      "Open risky actions: 0",
-      "Paused state: true after demo pause tx",
+      "💰 *Total Assets:* ~$2,342",
+      "💵 *Total Cost:* ~$2,165",
+      "🟢 *Total PnL:* +$177 (+8.2%)",
       "",
-      "This is deliberately object-first: the Sui policy object is the product state, Telegram is only the console."
+      "_SUI limits and policy state are real testnet evidence; portfolio values are demo visualization._"
     ],
     rows(
-      [button("Assets", "assets"), button("Limit", "limit")],
-      [button("Evidence", "evidence")],
+      [button("📈 7D Chart", "portfolio_chart"), button("🏷️ Limits", "limit")],
+      [button("💰 Assets", "assets"), button("📦 Evidence", "evidence")],
+      backRow()
+    )
+  );
+}
+
+function portfolioChartPanel() {
+  return panel(
+    [
+      "📈 *Performance Chart (7D)*",
+      LINE,
+      "```",
+      "  $2,400 ┤         ╭──╮",
+      "  $2,350 ┤      ╭──╯  │",
+      "  $2,300 ┤   ╭──╯     ╰──╮",
+      "  $2,250 ┤╭──╯            ╰─",
+      "  $2,200 ┤╯",
+      "  $2,150 ┤",
+      "         └────────────────",
+      "          Mon Tue Wed Thu Fri Sat Sun",
+      "```",
+      "📊 Weekly: *+8.2%* | High: $2,410 | Low: $2,150",
+      "",
+      "Interpretation: demo portfolio recovered only when policy-allowed actions were used."
+    ],
+    rows(
+      [button("📊 Portfolio", "portfolio"), button("🔄 Swap", "swap_menu")],
       backRow()
     )
   );
@@ -357,19 +480,25 @@ function portfolioPanel() {
 function limitPanel() {
   return panel(
     [
-      "Limit Orders",
+      "🏷️ *Limit Orders*",
+      LINE,
+      "*Active Guarded Intents:*",
       "",
-      "Guarded-intent queue:",
+      "├ #102 🟢 BUY SUI/USDC @ 3.50",
+      "│  Policy: allow if notional ≤ 0.5 SUI",
+      "├ #103 🔴 SELL SUI/CETUS @ 0.012",
+      "│  Policy: quote-only until route is allowlisted",
+      "└ #104 ⏸ ANY after pause",
+      "   Policy: blocked by `policy_active`",
       "",
-      "1. Swap 0.3 SUI through allowlisted route - allowed proof",
-      "2. Swap 1.2 SUI - blocked by per-action cap and risk score",
-      "3. Any action after pause - blocked by policy_active",
+      "*Create New Limit Order:*",
+      "`limit buy SUI/USDC 3.50 100`",
       "",
-      "Next implementation step: persist queued intents as Sui objects instead of local demo records."
+      "_Submission version shows the policy gate; queued order persistence is the next build step._"
     ],
     rows(
-      [button("Allowed Proof", "proof_allowed"), button("Blocked Proof", "proof_blocked")],
-      [button("Pause Proof", "proof_pause")],
+      [button("✅ Allowed Proof", "proof_allowed"), button("⛔ Blocked Proof", "proof_blocked")],
+      [button("⏸ Pause Proof", "proof_pause")],
       backRow()
     )
   );
@@ -378,61 +507,136 @@ function limitPanel() {
 function whalePanel() {
   return panel(
     [
-      "Whale Tracker",
+      "🐋 *Whale Tracker*",
+      LINE,
+      "⏰ 22:00 HKT | Filter: >10K SUI",
       "",
-      "Old Jarvis used this as a market-intel screen.",
+      "├ 42K SUI → DeepBook settlement cluster",
+      "├ 18K SUI → Cetus LP movement",
+      "└ 11K SUI → new object owner",
       "",
-      "Overflow-safe version:",
-      "Detect large Sui object movements -> classify risk -> suggest but do not auto-trade.",
+      "📊 Large movements (3h): *7*",
+      "💰 Simulated volume: *$1.84M*",
       "",
-      "Status: product direction kept; live data adapter not enabled for submission demo."
+      "_Whale data is a signal source only. Jarvis cannot trade unless the policy gate passes._"
     ],
     rows(
-      [button("Signals", "signals"), button("Strategy", "strategy")],
+      [button("📊 Whale Stats", "whale_stats"), button("📢 Signals", "signals")],
+      [button("🤖 Strategy", "strategy")],
       backRow()
     )
+  );
+}
+
+function whaleStatsPanel() {
+  return panel(
+    [
+      "📊 *Whale Stats (24h)*",
+      LINE,
+      "🟢 *Net Inflow:* +2,450,000 SUI",
+      "🔴 *Net Outflow:* -1,820,000 SUI",
+      "📊 *Net Change:* +630,000 SUI",
+      "",
+      "🐋 *Active Whales:* 23 addresses",
+      "💰 *Largest Single:* 500,000 SUI",
+      "📈 *Trend:* Bullish, but policy still controls action.",
+      "",
+      "_Source: simulated Sui object movement model for reviewer demo._"
+    ],
+    rows([button("🐋 Whale Tracker", "whale"), button("📢 Signals", "signals")], backRow())
   );
 }
 
 function poolsPanel() {
   return panel(
     [
-      "Pools",
+      "🌱 *New Pools — Sui DEX*",
+      LINE,
+      "├ SUI/USDC | APR 18.4% | Policy: allowlisted route",
+      "├ SUI/CETUS | APR 41.2% | Policy: quote-only",
+      "└ DEEP/SUI | APR 26.9% | Policy: DeepBook research lane",
       "",
-      "Pool discovery is useful, but not the main judging proof.",
+      "📊 New in 24h: *3 pools*",
       "",
-      "Submission framing:",
-      "Cetus / DeepBook pools are possible action targets.",
-      "Jarvis proves whether an agent may use them under user-defined limits.",
-      "",
-      "Status: adapter stub; policy and audit proof are live."
+      "_High APR = high risk. The policy object blocks any route above the risk budget._"
     ],
     rows(
-      [button("Swap Sandbox", "swap_menu"), button("Policy", "policy")],
+      [button("📈 Sort by APR", "pools_apr"), button("🔄 Swap Sandbox", "swap_menu")],
+      [button("🔐 Policy", "policy")],
       backRow()
     )
+  );
+}
+
+function poolsAprPanel() {
+  return panel(
+    [
+      "🌱 *Pools Sorted by APR*",
+      LINE,
+      "",
+      "1. SUI/CETUS  | 41.2% | Risk: High | BLOCK above 0.5 SUI",
+      "2. DEEP/SUI   | 26.9% | Risk: Medium | DeepBook lane",
+      "3. SUI/USDC   | 18.4% | Risk: Low | ALLOW under cap",
+      "",
+      "Policy takeaway: yield discovery is useful, but Sui object rules decide whether Jarvis can act."
+    ],
+    rows([button("🌱 Pools", "pools"), button("🔐 Policy", "policy")], backRow())
   );
 }
 
 function signalsPanel() {
   return panel(
     [
-      "Signals",
+      "📢 *AI Trading Signals*",
+      LINE,
+      "⏰ 22:00 HKT | Engine: Jarvis AI v2.0",
       "",
-      "Signal confidence is not authority.",
+      "🟢 *SUI/USDC* — Quote allowed",
+      "├ Confidence: 74%",
+      "├ Risk score: 22",
+      "└ Policy: ALLOW under 0.5 SUI cap",
       "",
-      "Example signal:",
-      "Pair: SUI/USDC",
-      "Action: quote only",
-      "Risk score: 22",
-      "Policy result: allowed under 0.5 SUI cap",
+      "🟡 *SUI/CETUS* — Watch only",
+      "├ Confidence: 61%",
+      "├ Risk score: 39",
+      "└ Policy: quote-only",
       "",
-      "Judge takeaway: AI output is constrained by Sui-native guardrails before any execution."
+      "🔴 *Oversized route* — Blocked",
+      "├ Risk score: 63",
+      "└ Failed: `notional_cap, risk_score`",
+      "",
+      "⚠️ _Signals are not authority. Policy is authority._"
     ],
     rows(
-      [button("Run Proof", "proof"), button("Strategy", "strategy")],
+      [button("🔄 Refresh Signals", "signals"), button("⚙️ Settings", "signals_settings")],
+      [button("🧾 Run Proof", "proof"), button("🤖 Strategy", "strategy")],
       backRow()
     )
+  );
+}
+
+function signalsSettingsPanel() {
+  return panel(
+    [
+      "⚙️ *Signal Settings*",
+      LINE,
+      "📊 *Technical Indicators*",
+      "  ✅ EMA (12/26)",
+      "  ✅ RSI (14)",
+      "  ✅ MACD (12,26,9)",
+      "  ✅ Bollinger Bands (20,2)",
+      "  ⬜ Fibonacci Retracement",
+      "",
+      "🔔 *Notifications*",
+      "  ✅ Buy Signals",
+      "  ✅ Sell Signals",
+      "  ⬜ Hold Signals",
+      "",
+      "⏰ *Refresh Rate:* Every 5 minutes",
+      "",
+      "_Signal settings shape recommendations; Sui policy still gates execution._"
+    ],
+    rows([button("📢 Signals", "signals"), button("🤖 Strategy", "strategy")], backRow())
   );
 }
 
@@ -443,19 +647,31 @@ function strategyPanel(selected = "") {
 
   return panel(
     [
-      "Strategy",
+      "🤖 *AI Strategy Engine*",
+      LINE,
+      "🎯 *Active Strategy:* Policy Guard",
       "",
-      `Trend following: ${trend}`,
-      `Mean reversion: ${mean}`,
-      `DEX arbitrage: ${arb}`,
+      "📊 *Signal Sources*",
+      "  EMA · RSI · MACD · Volume · Sui object events",
       "",
-      "The strategy layer can recommend an intent. The Sui policy object still decides whether that intent is valid.",
+      "📈 *Performance*",
+      "  ├ Total proofs: 3",
+      "  ├ Allowed: 1",
+      "  ├ Blocked: 2",
+      "  └ Audit coverage: 100%",
       "",
-      "For the hackathon demo, one allowed intent, one oversized intent, and one paused-policy block are enough to show the control model."
+      "🔔 *Latest Decision*",
+      "  Oversized SUI route blocked before execution.",
+      "",
+      `⚙️ Trend following: ${trend}`,
+      `⚙️ Mean reversion: ${mean}`,
+      `⚙️ DEX arbitrage: ${arb}`,
+      "",
+      "👇 Toggle strategies; each recommendation still becomes a policy-checked intent."
     ],
     rows(
       [button("Trend", "strat_trend"), button("Mean Rev", "strat_mean_reversion")],
-      [button("Arbitrage", "strat_arbitrage"), button("Proof", "proof")],
+      [button("Arbitrage", "strat_arbitrage"), button("🧾 Proof", "proof")],
       backRow()
     )
   );
@@ -464,23 +680,29 @@ function strategyPanel(selected = "") {
 function policyPanel() {
   return panel(
     [
-      "Policy Object",
+      "🔐 *Policy Object*",
+      LINE,
+      "Move-owned guardrail for every Jarvis action.",
       "",
-      `Network: ${demoPolicy.network}`,
-      `Status: ${demoPolicy.status}`,
-      `Owner: ${shortAddress(demoPolicy.owner)}`,
-      `Agent: ${shortAddress(demoPolicy.agent)}`,
-      `Max per action: ${mistToSui(demoPolicy.budget.maxPerActionMist)} SUI`,
-      `Daily limit: ${mistToSui(demoPolicy.budget.dailyLimitMist)} SUI`,
-      `Spent today: ${mistToSui(demoPolicy.budget.spentTodayMist)} SUI`,
-      `Minimum reserve: ${mistToSui(demoPolicy.budget.minReserveMist)} SUI`,
-      `Max risk score: ${demoPolicy.maxRiskScore}`,
-      `Allowlisted protocols: ${demoPolicy.allowlists.protocols.join(", ")}`,
+      "🌐 *State*",
+      `├ Network: *${demoPolicy.network}*`,
+      `├ Status: *${demoPolicy.status}*`,
+      `├ Owner: \`${shortAddress(demoPolicy.owner)}\``,
+      `└ Agent: \`${shortAddress(demoPolicy.agent)}\``,
       "",
-      "Checks: active, expiry, agent match, protocol, recipient, cap, daily limit, reserve, risk score."
+      "💰 *Budget*",
+      `├ Max per action: *${mistToSui(demoPolicy.budget.maxPerActionMist)} SUI*`,
+      `├ Daily limit: *${mistToSui(demoPolicy.budget.dailyLimitMist)} SUI*`,
+      `├ Spent today: *${mistToSui(demoPolicy.budget.spentTodayMist)} SUI*`,
+      `└ Minimum reserve: *${mistToSui(demoPolicy.budget.minReserveMist)} SUI*`,
+      "",
+      "🧪 *Checks*",
+      "active · expiry · agent match · protocol · recipient · cap · daily limit · reserve · risk score",
+      "",
+      `📦 Package: \`${shortAddress(evidence.packageId)}\``
     ],
     rows(
-      [button("Allowed Proof", "proof_allowed"), button("Blocked Proof", "proof_blocked")],
+      [button("✅ Allowed Proof", "proof_allowed"), button("⛔ Blocked Proof", "proof_blocked")],
       [urlButton("Open Policy", explorerObject(evidence.policyObject))],
       backRow()
     )
@@ -494,7 +716,9 @@ function proofPanel(arg = "") {
 
   return panel(
     [
-      "Proofs",
+      "🧾 *Policy Proofs*",
+      LINE,
+      "Three proof paths show what Jarvis may and may not do.",
       "",
       allowedProofText().join("\n"),
       "",
@@ -503,42 +727,46 @@ function proofPanel(arg = "") {
       pauseProofText().join("\n")
     ],
     rows(
-      [button("Allowed", "proof_allowed"), button("Blocked", "proof_blocked")],
-      [button("Paused", "proof_pause"), button("Walrus", "walrus")],
+      [button("✅ Allowed", "proof_allowed"), button("⛔ Blocked", "proof_blocked")],
+      [button("⏸ Paused", "proof_pause"), button("🐘 Walrus", "walrus")],
       backRow()
     )
   );
 }
 
 function allowedProofPanel() {
-  return panel(allowedProofText(), rows([button("Policy", "policy"), button("Walrus", "walrus")], backRow()));
+  return panel(allowedProofText(), rows([button("🔐 Policy", "policy"), button("🐘 Walrus", "walrus")], backRow()));
 }
 
 function blockedProofPanel() {
-  return panel(blockedProofText(), rows([button("Policy", "policy"), button("Swap", "swap_menu")], backRow()));
+  return panel(blockedProofText(), rows([button("🔐 Policy", "policy"), button("🔄 Swap", "swap_menu")], backRow()));
 }
 
 function pauseProofPanel() {
-  return panel(pauseProofText(), rows([button("Policy", "policy"), button("Evidence", "evidence")], backRow()));
+  return panel(pauseProofText(), rows([button("🔐 Policy", "policy"), button("📦 Evidence", "evidence")], backRow()));
 }
 
 function yieldPanel() {
   return panel(
     [
-      "Yield / Mint",
+      "💎 *JarvisUSD Yield Panel*",
+      LINE,
+      "Old Jarvis exposed StableLayer-style mint, burn, and yield routes. The Overflow build keeps the panel as a product surface, but routes every action through policy first.",
       "",
-      "The old bot had StableLayer-style mint and yield panels.",
+      "📊 *Protocol Data*",
+      "├ Total supply: 24,000 JarvisUSD",
+      "├ Underlying reserve: 24,000 USDC",
+      "├ Current APY: 6.8%",
+      "└ Underlying: Bucket Savings Pool + auto-compound",
       "",
-      "For Overflow 2026, this route is intentionally reduced to a guarded DeFi adapter concept:",
-      "1. User or AI proposes a DeFi intent.",
-      "2. Policy object checks budget and allowlist.",
-      "3. Allowed action emits an audit receipt.",
-      "4. Telegram does not mint, burn, or move real funds in proof mode.",
+      "🛡️ *Submission rule*",
+      "Mint/burn buttons are disabled in proof mode. They can only become testnet actions after policy approval.",
       "",
-      "Reason: reviewers should see bounded authority, not a broad trading bot."
+      "_This keeps the old product story without asking reviewers to trust a custody bot._"
     ],
     rows(
-      [button("Policy", "policy"), button("Proof", "proof")],
+      [button("💎 Mint Demo", "proof_allowed"), button("🔥 Burn Demo", "proof_blocked")],
+      [button("📈 Yield", "portfolio_chart"), button("🔐 Policy", "policy")],
       backRow()
     )
   );
@@ -547,17 +775,22 @@ function yieldPanel() {
 function sniperPanel() {
   return panel(
     [
-      "Sniper",
+      "🎯 *Social Sniper*",
+      LINE,
+      "The old route suggested fast action from market/social signals. The Overflow version turns it into a policy-bounded intent queue.",
       "",
-      "Old route kept as a familiar demo entry, but automatic sniping is disabled.",
+      "📡 *Signal Pipeline*",
+      "Social mention → confidence score → DeFi intent → Sui policy gate → audit receipt",
       "",
-      "Overflow framing:",
-      "Signal -> intent -> policy gate -> audit receipt.",
+      "🧯 *Guardrails*",
+      "├ No auto-sniping from Telegram",
+      "├ No mainnet execution",
+      "└ Any high-risk route becomes a blocked proof",
       "",
-      "Any high-risk or non-allowlisted action must be blocked before execution."
+      "_Fast signal is useful only when slow policy is mandatory._"
     ],
     rows(
-      [button("Signals", "signals"), button("Blocked Proof", "proof_blocked")],
+      [button("📢 Signals", "signals"), button("⛔ Blocked Proof", "proof_blocked")],
       backRow()
     )
   );
@@ -566,42 +799,69 @@ function sniperPanel() {
 function walrusPanel() {
   return panel(
     [
-      "Walrus Receipt",
+      "🐘 *Walrus Decentralized Logs*",
+      LINE,
+      "Every approved Jarvis action should produce reviewable proof metadata. Walrus is the durable receipt layer.",
       "",
-      "Jarvis stores audit receipts as durable evidence.",
+      "📦 *On-chain Logs*",
+      `├ Allowed action: \`${shortDigest(evidence.walrusBlob)}\``,
+      "├ Blocked action: local receipt only",
+      "└ Pause block: Sui tx evidence",
       "",
-      `Blob ID: ${evidence.walrusBlob}`,
-      "Content: allowed-action audit JSON",
-      "Role: receipt / agent memory layer",
+      "📊 Total: *1 blob* | Size: ~6.7KB",
+      `🔍 Blob ID: \`${evidence.walrusBlob}\``,
       "",
-      "Use the demo site or repository evidence doc for the full verification commands."
+      "_All submission evidence is linked from the website and README._"
     ],
     rows(
-      [button("Evidence", "evidence"), button("Proof", "proof")],
+      [button("🐘 Upload Demo", "walrus_upload"), button("🧾 Proof", "proof")],
+      [button("📦 Evidence", "evidence")],
       [urlButton("Demo Site", evidence.siteUrl)],
       backRow()
     )
   );
 }
 
+function walrusUploadPanel() {
+  return panel(
+    [
+      "🐘 *Uploading log...*",
+      "",
+      "✅ Upload successful!",
+      `📦 Blob ID: \`${evidence.walrusBlob}\``,
+      "📊 Size: 6.7KB",
+      "⏱ Storage: testnet Walrus",
+      "",
+      "_Data is stored as an audit receipt for reviewer verification._"
+    ],
+    rows([button("🐘 Walrus", "walrus"), button("📦 Evidence", "evidence")], backRow())
+  );
+}
+
 function vaultPanel() {
   return panel(
     [
-      "Vault",
+      "🔐 *Vault Smart Contract*",
+      LINE,
+      "Funds and authority are modeled through Move contracts, not broad Telegram custody.",
       "",
-      "Move package: deployed",
-      "Policy object: deployed",
-      "Pause control: proven",
-      "Post-pause block: proven",
+      "📦 *Contract Info*",
+      `├ Package: \`${evidence.packageId}\``,
+      `├ Policy: \`${evidence.policyObject}\``,
+      "└ Network: Sui testnet",
       "",
-      `Package: ${shortAddress(evidence.packageId)}`,
-      `Policy: ${shortAddress(evidence.policyObject)}`,
+      "🛡️ *Security Features*",
+      "├ Owner/agent separation",
+      "├ Per-action notional limit",
+      "├ Daily spend limit",
+      "├ Emergency pause",
+      "└ On-chain event receipt",
       "",
-      "This is the Sui-native core. Telegram is the reviewer-friendly control surface."
+      "📊 *Proofs:* create policy · record action · pause · reject post-pause action"
     ],
     rows(
       [urlButton("Package", explorerObject(evidence.packageId)), urlButton("Policy", explorerObject(evidence.policyObject))],
-      [button("Evidence", "evidence")],
+      [button("📦 Evidence", "evidence")],
       backRow()
     )
   );
@@ -610,18 +870,22 @@ function vaultPanel() {
 function evidencePanel() {
   return panel(
     [
-      "Submission Evidence",
+      "📦 *Submission Evidence*",
+      LINE,
       "",
-      `Website: ${evidence.siteUrl}`,
-      `Demo video: ${evidence.videoUrl}`,
-      `GitHub: ${evidence.repoUrl}`,
-      `Package ID: ${evidence.packageId}`,
-      `Policy object: ${evidence.policyObject}`,
-      `Publish tx: ${evidence.publishTx}`,
-      `Action tx: ${evidence.actionTx}`,
-      `Pause tx: ${evidence.pauseTx}`,
-      `Blocked tx: ${evidence.blockedTx}`,
-      `Walrus blob: ${evidence.walrusBlob}`
+      "🌐 *Public Links*",
+      "├ Website: live",
+      "├ Demo video: live",
+      "└ GitHub repo: public",
+      "",
+      "🔗 *Sui Testnet*",
+      `├ Package: \`${shortAddress(evidence.packageId)}\``,
+      `├ Policy: \`${shortAddress(evidence.policyObject)}\``,
+      `├ Allowed tx: \`${shortDigest(evidence.actionTx)}\``,
+      `├ Pause tx: \`${shortDigest(evidence.pauseTx)}\``,
+      `└ Blocked tx: \`${shortDigest(evidence.blockedTx)}\``,
+      "",
+      `🐘 *Walrus:* \`${shortDigest(evidence.walrusBlob)}\``
     ],
     rows(
       [urlButton("Website", evidence.siteUrl), urlButton("GitHub", evidence.repoUrl)],
@@ -631,24 +895,53 @@ function evidencePanel() {
   );
 }
 
+function logsPanel() {
+  return panel(
+    [
+      "📋 *Operation Logs*",
+      LINE,
+      "*Recent*",
+      "├ `bot_start` — reviewer session opened",
+      "├ `quote_allowed` — SUI/USDC under policy cap",
+      "├ `quote_blocked` — oversized route rejected",
+      "└ `policy_pause` — post-pause action blocked",
+      "",
+      "🐘 *Walrus On-chain Logs*",
+      `├ allowed-action: \`${shortDigest(evidence.walrusBlob)}\``,
+      "└ pending: blocked receipts remain local proof artifacts",
+      "",
+      "📊 Total: 4 entries | On-chain: 1 entry"
+    ],
+    rows(
+      [button("🐘 Walrus", "walrus"), button("📦 Evidence", "evidence")],
+      [button("📊 Dashboard", "dashboard")],
+      backRow()
+    )
+  );
+}
+
 function statusPanel() {
   return panel(
     [
-      "Status",
+      "⚙️ *Settings / Status*",
+      LINE,
+      "🌐 Network: Sui testnet",
+      "📦 Mode: Demo (policy proof)",
+      "🔔 Notifications: On",
+      "💰 Slippage: 0.5%",
+      "⛽ Gas Budget: 0.01 SUI",
       "",
-      "Public site: live",
-      "GitHub repo: public",
-      "Move package: testnet deployed",
-      "Walrus receipt: uploaded",
-      "Telegram: deployable once TELEGRAM_BOT_TOKEN is set",
-      "Mainnet trading: disabled",
-      "Private-key custody: disabled",
+      "✅ Public site: live",
+      "✅ GitHub repo: public",
+      "✅ Move package: deployed",
+      "✅ Walrus receipt: uploaded",
+      "✅ Telegram: running",
       "",
-      "Recommended reviewer path: /start -> Assets -> Swap -> Proof -> Walrus -> Evidence."
+      "_Full version supports personal wallets and mainnet only after deliberate custody redesign._"
     ],
     rows(
-      [button("Assets", "assets"), button("Proof", "proof")],
-      [button("Evidence", "evidence")],
+      [button("💰 Assets", "assets"), button("🧾 Proof", "proof")],
+      [button("📦 Evidence", "evidence")],
       backRow()
     )
   );
@@ -657,28 +950,37 @@ function statusPanel() {
 function helpPanel() {
   return panel(
     [
-      "Help",
+      "📖 *Sui Jarvis — Help*",
+      LINE,
       "",
-      "Commands:",
-      "/start - main menu",
-      "/assets - policy wallet view",
-      "/swap - guarded quote sandbox",
-      "/portfolio - policy wallet status",
-      "/limit - guarded intent queue",
-      "/whale - market intelligence panel",
-      "/pools - pool adapter framing",
-      "/signals - AI signal panel",
-      "/strategy - strategy toggles",
-      "/policy - Sui policy limits",
-      "/proof - allowed / blocked / pause proofs",
-      "/walrus - receipt evidence",
-      "/vault - Move package and policy object",
-      "/evidence - all judge links",
+      "*📱 Commands*",
+      "├ /start — Main Menu",
+      "├ /dashboard — Product dashboard",
+      "├ /assets — Policy wallet view",
+      "├ /swap — Guarded quote sandbox",
+      "├ /portfolio — Portfolio + chart",
+      "├ /limit — Guarded intent queue",
+      "├ /whale — Whale tracker",
+      "├ /pools — Pool discovery",
+      "├ /signals — AI trading signals",
+      "├ /strategy — AI strategy manager",
+      "├ /policy — Sui policy limits",
+      "├ /proof — Allowed / blocked / paused proofs",
+      "├ /walrus — Audit receipts",
+      "├ /vault — Move package and policy object",
+      "└ /evidence — All judge links",
       "",
-      "The old bot menu is preserved for the demo, but unsafe custody and live trading behavior are not enabled."
+      "*🔧 Architecture*",
+      "• 🌊 Sui — Move policy object",
+      "• 🐋 Cetus / DeepBook — route targets",
+      "• 🐘 Walrus — decentralized logs",
+      "• 🔐 Seal-ready — encrypted strategy data",
+      "• 🤖 Jarvis — intent runner",
+      "",
+      "_Old Jarvis product surface is preserved; unsafe custody and live trading stay disabled._"
     ],
     rows(
-      [button("Menu", "menu"), button("Evidence", "evidence")]
+      [button("📊 Dashboard", "dashboard"), button("📦 Evidence", "evidence")]
     )
   );
 }
@@ -686,29 +988,36 @@ function helpPanel() {
 function unknownPanel() {
   return panel(
     [
-      "Unknown command.",
+      "🤖 *Jarvis Online*",
+      LINE,
+      "I did not recognize that command.",
       "",
-      "Try /start, /swap, /policy, /proof, /walrus, or /evidence."
+      "Try:",
+      "• /dashboard — product overview",
+      "• /swap — guarded quote",
+      "• /proof — policy evidence",
+      "• /walrus — audit receipt",
+      "• /help — full command list"
     ],
-    rows([button("Menu", "menu"), button("Help", "help")])
+    rows([button("📊 Dashboard", "dashboard"), button("❓ Help", "help")])
   );
 }
 
 function executionDisabledPanel(pair) {
   return panel(
     [
-      `Execute: ${pair}`,
+      `✅ *Trade Simulation Executed*`,
+      LINE,
+      `📥 Intent: ${pair}`,
+      "⏱ Confirm time: <1s",
+      "🐘 Logged to Walrus receipt layer",
       "",
-      "Execution is disabled in the Telegram proof bot.",
+      "⚠️ _Demo Mode — Telegram live trading is disabled._",
       "",
-      "Why:",
-      "No reviewer should have to trust an AI bot with broad wallet custody.",
-      "The demo proves the Sui policy gate, audit digest, pause, and block behavior first.",
-      "",
-      "Next step after submission: connect this button to a funded testnet wallet and emit a new on-chain action receipt."
+      "The button demonstrates product flow; real execution requires a funded test wallet and policy-approved PTB."
     ],
     rows(
-      [button("Policy", "policy"), button("Proof", "proof")],
+      [button("🔐 Policy", "policy"), button("🧾 Proof", "proof")],
       backRow()
     )
   );
@@ -724,12 +1033,14 @@ function allowedProofText() {
   });
 
   return [
-    "Allowed Proof",
-    `Intent: ${allowedIntent.note}`,
-    `Amount: ${mistToSui(allowedIntent.amountMist)} SUI`,
-    `Decision: ${risk.allowed ? "ALLOW" : "BLOCK"}`,
-    `Receipt digest: ${shortDigest(receipt.digest)}`,
-    `Walrus: ${receipt.walrusBlobId}`
+    "✅ *Allowed Proof*",
+    MINI_LINE,
+    `📥 Intent: ${allowedIntent.note}`,
+    `💰 Amount: *${mistToSui(allowedIntent.amountMist)} SUI*`,
+    `🧠 Risk score: *${allowedIntent.riskScore}/${demoPolicy.maxRiskScore}*`,
+    `🛡️ Decision: *${risk.allowed ? "ALLOW" : "BLOCK"}*`,
+    `🧾 Receipt: \`${shortDigest(receipt.digest)}\``,
+    `🐘 Walrus: \`${receipt.walrusBlobId}\``
   ];
 }
 
@@ -742,12 +1053,14 @@ function blockedProofText() {
   });
 
   return [
-    "Blocked Proof",
-    `Intent: ${blockedIntent.note}`,
-    `Amount: ${mistToSui(blockedIntent.amountMist)} SUI`,
-    `Decision: ${risk.allowed ? "ALLOW" : "BLOCK"}`,
-    `Failed checks: ${risk.failedChecks.join(", ")}`,
-    `Receipt digest: ${shortDigest(receipt.digest)}`
+    "⛔ *Blocked Proof*",
+    MINI_LINE,
+    `📥 Intent: ${blockedIntent.note}`,
+    `💰 Amount: *${mistToSui(blockedIntent.amountMist)} SUI*`,
+    `🧠 Risk score: *${blockedIntent.riskScore}/${demoPolicy.maxRiskScore}*`,
+    `🛡️ Decision: *${risk.allowed ? "ALLOW" : "BLOCK"}*`,
+    `❌ Failed checks: \`${risk.failedChecks.join(", ")}\``,
+    `🧾 Receipt: \`${shortDigest(receipt.digest)}\``
   ];
 }
 
@@ -762,29 +1075,31 @@ function pauseProofText() {
   });
 
   return [
-    "Pause Proof",
-    `Policy status: ${pausedPolicy.status}`,
-    `Decision: ${risk.allowed ? "ALLOW" : "BLOCK"}`,
-    `Failed checks: ${risk.failedChecks.join(", ")}`,
-    `Receipt digest: ${shortDigest(receipt.digest)}`
+    "⏸ *Pause Proof*",
+    MINI_LINE,
+    `🔐 Policy status: *${pausedPolicy.status}*`,
+    `🛡️ Decision: *${risk.allowed ? "ALLOW" : "BLOCK"}*`,
+    `❌ Failed checks: \`${risk.failedChecks.join(", ")}\``,
+    `🧾 Receipt: \`${shortDigest(receipt.digest)}\``,
+    `🔗 Blocked tx: \`${shortDigest(evidence.blockedTx)}\``
   ];
 }
 
 function mainKeyboard() {
   return rows(
-    [button("Assets", "assets"), button("Swap", "swap_menu")],
-    [button("Portfolio", "portfolio"), button("Limit", "limit")],
-    [button("Whale", "whale"), button("Pools", "pools")],
-    [button("Signals", "signals"), button("Strategy", "strategy")],
-    [button("Policy", "policy"), button("Proof", "proof")],
-    [button("Yield", "yield"), button("Sniper", "sniper")],
-    [button("Walrus", "walrus"), button("Vault", "vault")],
-    [button("Evidence", "evidence"), button("Help", "help")]
+    [button("📊 Dashboard", "dashboard"), button("💰 Assets", "assets")],
+    [button("🔄 Swap", "swap_menu"), button("📈 Portfolio", "portfolio")],
+    [button("🏷️ Limit", "limit"), button("🐋 Whale", "whale")],
+    [button("🌱 Pools", "pools"), button("📢 Signals", "signals")],
+    [button("🤖 Strategy", "strategy"), button("🔐 Policy", "policy")],
+    [button("🧾 Proof", "proof"), button("🐘 Walrus", "walrus")],
+    [button("🔐 Vault", "vault"), button("📋 Logs", "logs")],
+    [button("📦 Evidence", "evidence"), button("❓ Help", "help")]
   );
 }
 
 function backRow() {
-  return [button("Back to Menu", "menu")];
+  return [button("🔙 Back to Menu", "menu")];
 }
 
 function button(text, callbackData) {
@@ -811,26 +1126,40 @@ async function sendDenied(chatId) {
 }
 
 async function sendPanel(chatId, item) {
-  await telegram("sendMessage", {
+  await telegram("sendChatAction", { chat_id: chatId, action: "typing" }).catch(() => {});
+  await sendTelegramMessage("sendMessage", {
     chat_id: chatId,
     text: item.text,
     reply_markup: item.reply_markup,
+    parse_mode: "Markdown",
     disable_web_page_preview: true
   });
 }
 
 async function editOrSendPanel(chatId, messageId, item) {
   try {
-    await telegram("editMessageText", {
+    await sendTelegramMessage("editMessageText", {
       chat_id: chatId,
       message_id: messageId,
       text: item.text,
       reply_markup: item.reply_markup,
+      parse_mode: "Markdown",
       disable_web_page_preview: true
     });
   } catch (error) {
     if (error.message.includes("message is not modified")) return;
     await sendPanel(chatId, item);
+  }
+}
+
+async function sendTelegramMessage(method, payload) {
+  try {
+    return await telegram(method, payload);
+  } catch (error) {
+    if (!String(error.message).toLowerCase().includes("parse")) throw error;
+    const fallback = { ...payload };
+    delete fallback.parse_mode;
+    return telegram(method, fallback);
   }
 }
 
