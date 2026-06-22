@@ -23,6 +23,26 @@ const evidence = Object.freeze({
 const LINE = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
 const MINI_LINE = "────────────────────────";
 
+const telegramCommands = Object.freeze([
+  { command: "start", description: "Open the Jarvis reviewer menu" },
+  { command: "dashboard", description: "Product dashboard" },
+  { command: "assets", description: "Policy wallet and limits" },
+  { command: "swap", description: "Policy-gated quote sandbox" },
+  { command: "portfolio", description: "Portfolio view and chart" },
+  { command: "limit", description: "Guarded intent queue" },
+  { command: "whale", description: "Whale signal panel" },
+  { command: "pools", description: "Sui pool discovery" },
+  { command: "signals", description: "AI signal feed" },
+  { command: "strategy", description: "AI strategy manager" },
+  { command: "policy", description: "Sui policy object" },
+  { command: "proof", description: "Allowed and blocked proofs" },
+  { command: "walrus", description: "Walrus audit receipts" },
+  { command: "vault", description: "Move package evidence" },
+  { command: "logs", description: "Recent operation logs" },
+  { command: "evidence", description: "All judge links" },
+  { command: "help", description: "List commands" }
+]);
+
 const callbackAliases = new Map([
   ["back", "menu"],
   ["wallet", "assets"],
@@ -86,13 +106,14 @@ let offset = Number(process.env.TELEGRAM_UPDATE_OFFSET || 0);
 
 console.log("Sui Jarvis Telegram bot started.");
 console.log("Mode: policy proof demo; Telegram trading execution disabled.");
-console.log("Commands: /start /assets /swap /portfolio /signals /strategy /policy /proof /walrus /vault /evidence /help");
+console.log(`Commands: ${formatCommandList()}`);
 
 try {
   const identity = await telegram("getMe", {});
   const handle = identity.result?.username ? `@${identity.result.username}` : identity.result?.first_name || "unknown bot";
   console.log(`Connected to Telegram as ${handle}.`);
   await telegram("deleteWebhook", { drop_pending_updates: false });
+  await telegram("setMyCommands", { commands: telegramCommands });
 } catch (error) {
   console.error(`Telegram startup check failed: ${error.message}`);
   process.exit(1);
@@ -1253,6 +1274,10 @@ function shortAddress(value) {
 
 function shortDigest(value) {
   return `${value.slice(0, 10)}...${value.slice(-8)}`;
+}
+
+function formatCommandList() {
+  return telegramCommands.map(({ command }) => `/${command}`).join(" ");
 }
 
 function explorerObject(objectId) {
