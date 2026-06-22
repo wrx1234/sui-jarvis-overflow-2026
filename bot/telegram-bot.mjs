@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from "node:fs";
+import https from "node:https";
 import { createAuditRecord } from "../src/audit.mjs";
 import { allowedIntent, blockedIntent, demoPolicy } from "../src/policy.mjs";
 import { evaluateIntent } from "../src/risk.mjs";
@@ -834,15 +835,57 @@ async function editOrSendPanel(chatId, messageId, item) {
 }
 
 async function telegram(method, payload) {
-  const response = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(payload)
+  const body = JSON.stringify(payload);
+  const apiIp = process.env.TELEGRAM_API_IP;
+  const timeoutMs = method === "getUpdates"
+    ? Number(payload.timeout || 30) * 1000 + 15000
+    : 30000;
+
+  const responseText = await new Promise((resolve, reject) => {
+    const request = https.request({
+      hostname: "api.telegram.org",
+      port: 443,
+      path: `/bot${token}/${method}`,
+      method: "POST",
+      timeout: timeoutMs,
+      headers: {
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(body)
+      },
+      lookup: apiIp
+        ? (_hostname, options, callback) => {
+          if (options?.all) {
+            callback(null, [{ address: apiIp, family: 4 }]);
+            return;
+          }
+          callback(null, apiIp, 4);
+        }
+        : undefined
+    }, (response) => {
+      let text = "";
+      response.setEncoding("utf8");
+      response.on("data", (chunk) => {
+        text += chunk;
+      });
+      response.on("end", () => {
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          reject(new Error(`Telegram ${method} failed with HTTP ${response.statusCode}`));
+          return;
+        }
+        resolve(text);
+      });
+    });
+
+    request.on("timeout", () => {
+      request.destroy(new Error(`Telegram ${method} timed out after ${timeoutMs}ms`));
+    });
+    request.on("error", reject);
+    request.end(body);
   });
 
-  const json = await response.json().catch(() => undefined);
-  if (!response.ok || !json?.ok) {
-    throw new Error(json?.description || `Telegram ${method} failed with HTTP ${response.status}`);
+  const json = JSON.parse(responseText);
+  if (!json?.ok) {
+    throw new Error(json?.description || `Telegram ${method} failed`);
   }
   return json;
 }

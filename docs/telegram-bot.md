@@ -65,6 +65,13 @@ npm run bot
 
 The bot uses Telegram long polling and clears any existing webhook on startup. If another host is already running the same token, stop that process first.
 
+If local DNS or proxy routing cannot reliably reach `api.telegram.org`, set a
+Telegram API IP override before starting:
+
+```bash
+TELEGRAM_API_IP=149.154.167.99 npm run bot
+```
+
 Recommended reviewer path:
 
 ```text
